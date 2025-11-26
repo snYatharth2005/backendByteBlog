@@ -35,7 +35,7 @@ public class SecurityConfig {
 //              .csrf(csrf -> csrf.disable()) above line is same
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.addAllowedOrigin("https://blogbyyatharth.netlify.app/");
+                    config.addAllowedOrigin("https://byteblogy.vercel.app/");
                     config.addAllowedMethod("*");
                     config.addAllowedHeader("*");
                     config.setAllowCredentials(true);
