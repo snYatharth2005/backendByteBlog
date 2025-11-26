@@ -11,7 +11,7 @@ import java.security.Principal;
 import java.util.List;
 @RestController
 @RequestMapping("/post")
-@CrossOrigin(origins = "https://byteblogy.vercel.app/")
+@CrossOrigin(origins = "https://byteblogy.netlify.app/")
 public class PostController {
 
     private final PostService service;
