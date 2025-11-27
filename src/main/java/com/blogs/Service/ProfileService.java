@@ -6,6 +6,9 @@ import com.blogs.DTOs.UserMapper;
 import com.blogs.DTOs.UserProfileDto;
 import com.blogs.Model.User;
 import com.blogs.Repository.UserRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,13 +18,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 @Service
 public class ProfileService {
+
+    private final Cloudinary cloudinary;
     private final UserRepository repo;
 
-    public ProfileService(UserRepository repo){
+    public ProfileService(UserRepository repo, Cloudinary cloudinary){
         this.repo = repo;
+        this.cloudinary = cloudinary;
     }
 
 
@@ -47,23 +54,30 @@ public class ProfileService {
         User user = repo.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String uploadDir = "uploads/";
-        File dir = new File(uploadDir);
-        if (!dir.exists()) dir.mkdirs(); // create folder if missing
-
-        String fileName = username + "_" + file.getOriginalFilename();
-        Path path = Paths.get(uploadDir + fileName);
-
         try {
-            Files.write(path, file.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException("Error uploading file");
-        }
-        // Change the Backend URL if you use different backend
-        user.setProfileImageUrl("https://backendbyteblog-production.up.railway.app/uploads/" + fileName);
-        repo.save(user);
+            // Upload to Cloudinary with folder
+            Map uploadResult = cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.asMap(
+                            "folder", "uploads/",
+                            "public_id", username + "_profile",
+                            "overwrite", true,
+                            "resource_type", "image"
+                    )
+            );
 
-        return user.getProfileImageUrl();
+            // Get secure URL
+            String imageUrl = uploadResult.get("secure_url").toString();
+
+            // Save in DB
+            user.setProfileImageUrl(imageUrl);
+            repo.save(user);
+
+            return imageUrl;
+
+        } catch (IOException e) {
+            throw new RuntimeException("Cloudinary upload failed: " + e.getMessage());
+        }
     }
 
     public UserProfileDto getLoggedInProfile(String username) {
