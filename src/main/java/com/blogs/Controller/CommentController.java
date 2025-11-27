@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/comment")
-@CrossOrigin("https://byteblogy.vercel.app/")
+//@CrossOrigin("https://byteblogy.vercel.app/")
+@CrossOrigin("http://localhost:5173/")
 public class CommentController {
 
 }
