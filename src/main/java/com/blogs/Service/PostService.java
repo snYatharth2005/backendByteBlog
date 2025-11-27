@@ -114,7 +114,7 @@ public class PostService {
         List<UserDto> result = new ArrayList<>();
 
         for(PostLiked postL: postLiked){
-            UserDto newUser = new UserDto(postL.getUser().getId(), postL.getUser().getUsername(), postL.getUser().getEmail());
+            UserDto newUser = new UserDto(postL.getUser().getId(), postL.getUser().getUsername(), postL.getUser().getEmail(), postL.getUser().getProfileImageUrl());
             result.add(newUser);
         }
         return result;
