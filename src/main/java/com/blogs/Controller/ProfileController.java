@@ -12,8 +12,8 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/profile")
-//@CrossOrigin(origins = "https://byteblogy.vercel.app/")
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "https://byteblogy.vercel.app/")
+//@CrossOrigin(origins = "http://localhost:5173/")
 public class ProfileController {
 
     private final ProfileService service;
