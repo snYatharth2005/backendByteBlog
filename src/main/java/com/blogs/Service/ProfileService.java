@@ -59,8 +59,8 @@ public class ProfileService {
         } catch (IOException e) {
             throw new RuntimeException("Error uploading file");
         }
-
-        user.setProfileImageUrl("http://localhost:8080/uploads/" + fileName);
+        // Change the Backend URL if you use different backend
+        user.setProfileImageUrl("https://backendbyteblog-production.up.railway.app/uploads/" + fileName);
         repo.save(user);
 
         return user.getProfileImageUrl();
