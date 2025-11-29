@@ -2,21 +2,17 @@ package com.blogs.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class PostResponseDto {
+@RequiredArgsConstructor
+public class CommentResponseDto {
     private Integer id;
-    private String title;
     private String content;
     private LocalDateTime createdAt;
-    private Integer likeCount;
-    private boolean likedByUser;
     private UserDto user;
-    private Integer commentsCount;
+    private PostDto post;
 }

@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -17,15 +20,17 @@ public class Comment {
     private Integer id;
 
     @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
     private String content;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
 }

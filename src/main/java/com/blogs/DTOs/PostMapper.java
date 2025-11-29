@@ -7,7 +7,7 @@ public class PostMapper {
 
     public static PostResponseDto toDto(Post post, boolean likedByUser) {
         User user = post.getUser();
-
+        Integer commentsCount = post.getComments().size();
         UserDto userDto = new UserDto(user.getId(), user.getUsername(), user.getEmail(), user.getProfileImageUrl());
 
         return new PostResponseDto(
@@ -17,7 +17,8 @@ public class PostMapper {
                 post.getCreatedAt(),
                 post.getLikeCount(),
                 likedByUser,
-                userDto
+                userDto,
+                commentsCount
         );
     }
 }
